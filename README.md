@@ -1,7 +1,5 @@
 # muk [![Build Status](https://secure.travis-ci.org/fent/node-muk.png)](http://travis-ci.org/fent/node-muk)
 
-[short consice explanation]
-
 
 # Usage
 
