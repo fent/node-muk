@@ -5,11 +5,13 @@ var fs     = require('fs');
 
 describe('Mock methods', function() {
   var readFile = fs.readFile;
-  var exists = fs.exists;
+  var mkdir = fs.mkdir;
 
   it('Contains original methods', function() {
-    assert.equal(typeof fs.readFile, 'function', 'fs.readFile is function');
-    assert.equal(typeof fs.exists, 'function', 'fs.exists is function');
+    assert.equal(typeof fs.readFile, 'function',
+                 'fs.readFile is function');
+    assert.equal(typeof fs.readFileSync, 'function',
+                 'fs.readFileSync is function');
   });
 
   it('Methods are new objects after mocked', function() {
@@ -17,15 +19,15 @@ describe('Mock methods', function() {
       process.nextTick(callback.bind(null, null, 'hello!'));
     };
 
-    var existsMock = function(path, callback) {
-      process.nextTick(callback.bind(null, true));
+    var mkdirMock = function(path, callback) {
+      process.nextTick(callback.bind(null, null));
     };
 
     muk(fs, 'readFile', readFileMock);
-    muk(fs, 'exists', existsMock);
+    muk(fs, 'mkdir', mkdirMock);
 
     assert.equal(fs.readFile, readFileMock, 'object method is equal to mock');
-    assert.equal(fs.exists, existsMock, 'object method is equal to mock');
+    assert.equal(fs.mkdir, mkdirMock, 'object method is equal to mock');
   });
 
   it('No errors calling new mocked methods', function(done) {
@@ -40,7 +42,7 @@ describe('Mock methods', function() {
   it('Should have original methods after muk.restore()', function() {
     muk.restore();
     assert.equal(fs.readFile, readFile, 'original method is restored');
-    assert.equal(fs.exists, exists, 'original method is restored');
+    assert.equal(fs.mkdir, mkdir, 'original method is restored');
   });
 });
 
