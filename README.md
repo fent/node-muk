@@ -26,7 +26,12 @@ require('request', mockedRequest);
 console.log(mockedRequest === require('request')); // true
 ```
 
-Only userland modules dependencies can be mocked.
+Only userland modules dependencies can be mocked. You can also mock modules required with a relative path.
+
+```js
+muk('./foo', 'hey!!');
+console.log(require('./foo.js')); // hey!!
+```
 
 Restore all mocked methods and modules after tests.
 
