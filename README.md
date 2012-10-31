@@ -16,17 +16,28 @@ muk(fs, 'readFile', function(path, callback) {
 
 Mock dependencies too.
 
+**foo.js**
+```
+var request = require('request');
+
+module.exports = function foo(url) {
+  // do something with request
+};
+```
+
 ```js
 var mockedRequest = function(url, options, callback) {
   // mock a request here
 };
 
 require('request', mockedRequest);
-
 console.log(mockedRequest === require('request')); // true
+var foo = muk('./foo');
 ```
 
-Only userland modules dependencies can be mocked. You can also mock modules required with a relative path.
+Only userland modules dependencies can be mocked. When muk() is called with one string argument, it will delete that module from the cache and return the `require()`d object, refreshing the module.
+
+You can also mock modules required with a relative path.
 
 ```js
 muk('./foo', 'hey!!');
