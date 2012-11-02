@@ -1,36 +1,51 @@
-var muk    = require('..');
+var muk = require('..');
 var assert = require('assert');
 
 
-function testMockDependency(filename) {
-  var original = require(filename);
+function testMockDependency(dir, filename) {
+  var original;
 
-  it('Correctly mocks dependency', function() {
-    var mockObject = { existsSync: function() { return true; } };
-    var mockedModule = muk(filename, mockObject);
-
-    assert.equal(mockedModule, mockObject,
-                 'returned module is mocked object');
-    assert.equal(require(filename), mockObject,
-                 'when require is called it returns the mocked object');
+  it('Original loads without mock', function(done) {
+    require(dir)(filename, function(err, result) {
+      original = result;
+      done();
+    });
   });
 
-  it('Restores original module when muk.restore() is called', function() {
-    muk.restore();
-    assert.equal(require(filename), original,
-                 'requiring module again returns orignal module');
+  it('Correctly mocks dependency', function(done) {
+    var deps = {};
+    var mock = deps[filename] = { existsSync: function() { return true; } };
+
+    muk(dir, deps)(filename, function(err, result) {
+      assert.equal(result, mock, 'returned module is mocked object');
+      done();
+    });
+  });
+
+  it('Original module is restored when require() is called', function(done) {
+    delete require.cache[require.resolve(dir)];
+
+    require(dir)(filename, function(err, result) {
+      assert.equal(result, original,
+                   'requiring module again returns orignal module');
+      done();
+    });
   });
 }
 
 
 describe('Mock required user land dependency', function() {
-  testMockDependency('mocha');
+  testMockDependency('./custom', 'mocha');
 });
 
-describe('Mock required file', function() {
-  testMockDependency('./foo');
+describe('Mock require native module', function() {
+  testMockDependency('./custom', 'fs');
 });
 
-describe('Mock required file in a different dir', function() {
-  require('./dir/testMockDependency')('./bar');
+describe('Mock required relative file', function() {
+  testMockDependency('./custom', './foo');
+});
+
+describe('Mock required relative file in a different dir', function() {
+  require('./dir')('./custom', './bar');
 });
