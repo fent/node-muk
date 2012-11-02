@@ -2,7 +2,7 @@
   "name": "muk",
   "description": "Mock object methods and dependencies.",
   "keywords": ["test", "mock", "dependency"],
-  "version": "0.1.2",
+  "version": "0.2.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/fent/node-muk.git"
