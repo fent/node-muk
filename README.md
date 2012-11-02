@@ -14,6 +14,16 @@ muk(fs, 'readFile', function(path, callback) {
 });
 ```
 
+Restore all mocked methods after tests.
+
+```
+muk.restore();
+
+fs.readFile(file, function(err, data) {
+  // will actually read from `file`
+});
+```
+
 Mock dependencies too.
 
 **foo.js**
@@ -25,33 +35,31 @@ module.exports = function foo(url) {
 };
 ```
 
+**test.js**
 ```js
 var mockedRequest = function(url, options, callback) {
   // mock a request here
 };
 
-require('request', mockedRequest);
-console.log(mockedRequest === require('request')); // true
-var foo = muk('./foo');
+var foo = muk('./foo', {
+  request: mockedRequest
+});
 ```
-
-Only userland modules dependencies can be mocked. When muk() is called with one string argument, it will delete that module from the cache and return the `require()`d object, refreshing the module.
 
 You can also mock modules required with a relative path.
 
+**foo.js**
 ```js
-muk('./foo', 'hey!!');
-console.log(require('./foo.js')); // hey!!
+var bar = require('./bar');
+
+module.exports = function() {
+  // do something with bar
+};
 ```
 
-Restore all mocked methods and modules after tests.
-
-```
-muk.restore();
-
-fs.readFile(file, function(err, data) {
-  // will actually read from `file`
-});
+**test.js**
+```js
+var foo = muk('./foo', { './bar': 'hey!!' });
 ```
 
 
