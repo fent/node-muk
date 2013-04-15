@@ -25,7 +25,6 @@ describe('Mock methods', function() {
 
     muk(fs, 'readFile', readFileMock);
     muk(fs, 'mkdir', mkdirMock);
-
     assert.equal(fs.readFile, readFileMock, 'object method is equal to mock');
     assert.equal(fs.mkdir, mkdirMock, 'object method is equal to mock');
   });
@@ -43,5 +42,25 @@ describe('Mock methods', function() {
     muk.restore();
     assert.equal(fs.readFile, readFile, 'original method is restored');
     assert.equal(fs.mkdir, mkdir, 'original method is restored');
+  });
+});
+
+describe('Mock property', function () {
+  var config = {
+    enableCache: true,
+    delay: 10
+  };
+
+  it('Contains original property', function () {
+    assert.equal(config.enableCache, true, 'enableCache is true');
+    assert.equal(config.delay, 10, 'delay is 10');
+  });
+
+  it('Property are new after mocked', function () {
+    muk(config, 'enableCache', false);
+    muk(config, 'delay', 0);
+
+    assert.equal(config.enableCache, false, 'enableCache is false');
+    assert.equal(config.delay, 0, 'delay is 0');
   });
 });
