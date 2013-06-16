@@ -1,6 +1,6 @@
 # muk [![Build Status](https://secure.travis-ci.org/fent/node-muk.png)](http://travis-ci.org/fent/node-muk)
 
-![muk](http://cdn.bulbagarden.net/upload/7/7c/089Muk.png)
+![muk](http://www.pokemonelite2000.com/sprites/bwb/89.png)
 
 
 # Usage
