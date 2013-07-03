@@ -71,4 +71,14 @@ describe('Mock property', function () {
     assert.equal(config.enableCache, false, 'enableCache is false');
     assert.equal(config.delay, 0, 'delay is 0');
   });
+
+  it('Should have original properties after muk.restore()', function () {
+    muk(config, 'enableCache', false);
+    muk(config, 'enableCache', false);
+    muk(config, 'delay', 0);
+    muk.restore();
+
+    assert.equal(config.enableCache, true, 'enableCache is true');
+    assert.equal(config.delay, 10, 'delay is 10');
+  });
 });
