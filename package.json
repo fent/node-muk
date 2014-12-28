@@ -1,8 +1,12 @@
 {
   "name": "muk",
   "description": "Mock object methods and dependencies.",
-  "keywords": ["test", "mock", "dependency"],
-  "version": "0.3.1",
+  "keywords": [
+    "test",
+    "mock",
+    "dependency"
+  ],
+  "version": "0.3.2",
   "repository": {
     "type": "git",
     "url": "git://github.com/fent/node-muk.git"
@@ -18,8 +22,10 @@
   "devDependencies": {
     "mocha": "*"
   },
-  "licenses": [ {
-    "type": "MIT",
-    "url" : "http://github.com/fent/node-muk/raw/master/LICENSE"
-  }]
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/fent/node-muk/raw/master/LICENSE"
+    }
+  ]
 }
