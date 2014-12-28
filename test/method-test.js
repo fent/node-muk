@@ -76,9 +76,17 @@ describe('Mock property', function () {
     muk(config, 'enableCache', false);
     muk(config, 'enableCache', false);
     muk(config, 'delay', 0);
+    muk(config, 'notExistProp', 'value');
+    muk(process.env, 'notExistProp', 0);
     muk.restore();
 
     assert.equal(config.enableCache, true, 'enableCache is true');
     assert.equal(config.delay, 10, 'delay is 10');
+    assert(!hasOwnProperty(config, 'notExistProp'), 'notExistProp is deleted');
+    assert(!hasOwnProperty(process.env, 'notExistProp'), 'notExistProp is deleted');
   });
 });
+
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
