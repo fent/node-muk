@@ -1,3 +1,5 @@
+'use strict';
+
 var muk    = require('..');
 var assert = require('assert');
 var fs     = require('fs');
@@ -84,6 +86,29 @@ describe('Mock property', function () {
     assert.equal(config.delay, 10, 'delay is 10');
     assert(!hasOwnProperty(config, 'notExistProp'), 'notExistProp is deleted');
     assert(!hasOwnProperty(process.env, 'notExistProp'), 'notExistProp is deleted');
+  });
+});
+
+describe('Mock getter', function() {
+  var obj = {
+    get a() {
+      return 1;
+    }
+  };
+
+  it('Contains original getter', function() {
+    assert.equal(obj.a, 1, 'property a of obj is 1');
+  });
+
+  it('Methods are new getter after mocked', function() {
+    muk(obj, 'a', 2);
+    assert.equal(obj.a, 2, 'property a of obj is equal to mock');
+  });
+
+  it('Should have original getter after muk.restore()', function() {
+    muk(obj, 'a', 2);
+    muk.restore();
+    assert.equal(obj.a, 1, 'property a of obj is equal to mock');
   });
 });
 
