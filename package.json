@@ -14,18 +14,22 @@
   "author": "fent (https://github.com/fent)",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "mocha -R spec test/*-test.js"
+    "test": "istanbul cover node_modules/.bin/_mocha -- -R spec test/*-test.js"
   },
   "directories": {
     "lib": "./lib"
   },
   "devDependencies": {
-    "mocha": "*"
+    "mocha": "*",
+    "istanbul": "0"
   },
   "licenses": [
     {
       "type": "MIT",
       "url": "http://github.com/fent/node-muk/raw/master/LICENSE"
     }
+  ],
+  "files": [
+    "lib"
   ]
 }

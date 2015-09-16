@@ -9,6 +9,8 @@ describe('Mock methods', function() {
   var readFile = fs.readFile;
   var mkdir = fs.mkdir;
 
+  afterEach(muk.restore);
+
   it('Contains original methods', function() {
     assert.equal(typeof fs.readFile, 'function',
                  'fs.readFile is function');
@@ -32,6 +34,11 @@ describe('Mock methods', function() {
   });
 
   it('No errors calling new mocked methods', function(done) {
+    var readFileMock = function(path, callback) {
+      process.nextTick(callback.bind(null, null, 'hello!'));
+    };
+    muk(fs, 'readFile', readFileMock);
+
     fs.readFile('grimer', function(err, data) {
       if (err) return done(err);
 
@@ -53,6 +60,7 @@ describe('Mock methods', function() {
     muk.restore();
     assert.equal(fs.readFile, readFile, 'mock twices, original method should be restored too');
   });
+
 });
 
 describe('Mock property', function () {
@@ -60,6 +68,8 @@ describe('Mock property', function () {
     enableCache: true,
     delay: 10
   };
+
+  afterEach(muk.restore);
 
   it('Contains original property', function () {
     assert.equal(config.enableCache, true, 'enableCache is true');
@@ -87,6 +97,13 @@ describe('Mock property', function () {
     assert(!hasOwnProperty(config, 'notExistProp'), 'notExistProp is deleted');
     assert(!hasOwnProperty(process.env, 'notExistProp'), 'notExistProp is deleted');
   });
+
+  it('should mock function when method is null', function() {
+    muk.restore();
+    muk(config, 'enableCache');
+    assert.equal(typeof config.enableCache, 'function', 'enableCache is function');
+    assert.equal(config.enableCache(), undefined, 'enableCache return undefined');
+  });
 });
 
 describe('Mock getter', function() {
@@ -95,6 +112,8 @@ describe('Mock getter', function() {
       return 1;
     }
   };
+
+  afterEach(muk.restore);
 
   it('Contains original getter', function() {
     assert.equal(obj.a, 1, 'property a of obj is 1');
