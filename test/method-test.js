@@ -61,6 +61,18 @@ describe('Mock methods', function() {
     assert.equal(fs.readFile, readFile, 'mock twices, original method should be restored too');
   });
 
+  it('should mock method on prototype', function() {
+    var readFile = fs.readFile;
+    var newFs = Object.create(fs);
+    var readFileMock = function(path, callback) {
+      process.nextTick(callback.bind(null, null, 'hello!'));
+    };
+    muk(newFs, 'readFile', readFileMock);
+    assert.equal(newFs.readFile, readFileMock, 'object method is equal to mock');
+
+    muk.restore();
+    assert.equal(newFs.readFile, readFile, 'object method is equal to origin');
+  });
 });
 
 describe('Mock property', function () {
@@ -99,10 +111,19 @@ describe('Mock property', function () {
   });
 
   it('should mock function when method is null', function() {
-    muk.restore();
     muk(config, 'enableCache');
     assert.equal(typeof config.enableCache, 'function', 'enableCache is function');
     assert.equal(config.enableCache(), undefined, 'enableCache return undefined');
+  });
+
+  it('should mock property on prototype', function() {
+    var newConfig = Object.create(config);
+    muk(newConfig, 'enableCache', false);
+    assert.deepEqual(Object.keys(newConfig), ['enableCache'], 'obj should contain properties');
+    assert.equal(newConfig.enableCache, false, 'enableCache is false');
+
+    muk.restore();
+    assert.equal(newConfig.enableCache, true, 'enableCache is false');
   });
 });
 
@@ -127,7 +148,17 @@ describe('Mock getter', function() {
   it('Should have original getter after muk.restore()', function() {
     muk(obj, 'a', 2);
     muk.restore();
-    assert.equal(obj.a, 1, 'property a of obj is equal to mock');
+    assert.equal(obj.a, 1, 'property a of obj is equal to origin');
+  });
+
+  it('should mock property on prototype', function() {
+    var newObj = Object.create(obj);
+    muk(newObj, 'a', 2);
+    assert.deepEqual(Object.keys(newObj), ['a'], 'obj should contain properties');
+    assert.equal(newObj.a, 2, 'property a of obj is equal to mock');
+
+    muk.restore();
+    assert.equal(newObj.a, 1, 'property a of obj is equal to origin');
   });
 });
 
