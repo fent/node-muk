@@ -9,7 +9,7 @@
 Mock dependencies.
 
 **foo.js**
-```
+```js
 var request = require('request');
 
 module.exports = function foo(url) {
@@ -60,9 +60,15 @@ muk(fs, 'readFile', function(path, callback) {
 });
 ```
 
+Check if member has been mocked.
+
+```js
+muk.isMocked(fs, 'readFile'); // true
+```
+
 Restore all mocked methods after tests.
 
-```
+```js
 muk.restore();
 
 fs.readFile(file, function(err, data) {
