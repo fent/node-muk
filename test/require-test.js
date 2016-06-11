@@ -3,6 +3,8 @@ var assert = require('assert');
 
 
 function testMockDependency(dir, filename) {
+  var deps = {};
+  var mock = deps[filename] = { existsSync: function() { return true; } };
   var original;
 
   it('Original loads without mock', function(done) {
@@ -13,11 +15,16 @@ function testMockDependency(dir, filename) {
   });
 
   it('Correctly mocks dependency', function(done) {
-    var deps = {};
-    var mock = deps[filename] = { existsSync: function() { return true; } };
-
     muk(dir, deps)(filename, function(err, result) {
       assert.equal(result, mock, 'returned module is mocked object');
+      done();
+    });
+  });
+
+  it('Correctly requires non-mocked dependency', function(done) {
+    muk(dir, deps)('assert', function(err, result) {
+      assert.equal(assert, result,
+                   'returned module is the same one used in these tests');
       done();
     });
   });
