@@ -162,6 +162,70 @@ describe('Mock getter', function() {
   });
 });
 
+describe('Mock check', function() {
+
+  afterEach(muk.restore);
+
+  it('Should check whether is mocked', function() {
+    var obj = {
+      a: 1,
+    };
+    assert.equal(muk.isMocked(obj, 'a'), false, 'obj should not be mocked');
+
+    muk(obj, 'a', 2);
+    assert.ok(muk.isMocked(obj, 'a'), 'obj should be mocked');
+  });
+
+  it('Should not be enumerable', function() {
+    var obj = {
+      a: 1,
+    };
+    muk(obj, 'a', 2);
+    assert.deepEqual(Object.keys(obj), ['a']);
+
+    var keys = [];
+    for (var key in obj) {
+      keys.push(key);
+    }
+    assert.deepEqual(keys, ['a']);
+  });
+
+  it('Should be restored', function() {
+    var obj = {
+      a: 1,
+    };
+    muk(obj, 'a', 2);
+    muk.restore();
+    assert.equal(obj.a, 1);
+  });
+
+  it('Should check different type', function() {
+    var obj = {
+      a: 1,
+      b: '1',
+      c: true,
+      d: {},
+      get e() {
+        return 1;
+      },
+    };
+    muk(obj, 'a', 2);
+    assert.ok(muk.isMocked(obj, 'a'));
+
+    muk(obj, 'b', '2');
+    assert.ok(muk.isMocked(obj, 'b'));
+
+    muk(obj, 'c', false);
+    assert.ok(muk.isMocked(obj, 'c'));
+
+    muk(obj, 'd', { d: 1 });
+    assert.ok(muk.isMocked(obj, 'd'));
+
+    muk(obj, 'e', 2);
+    assert.ok(muk.isMocked(obj, 'e'));
+  });
+});
+
 function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
