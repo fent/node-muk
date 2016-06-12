@@ -80,6 +80,7 @@ describe('Mock property', function () {
     enableCache: true,
     delay: 10
   };
+  var home = process.env.HOME;
 
   afterEach(muk.restore);
 
@@ -91,21 +92,25 @@ describe('Mock property', function () {
   it('Property are new after mocked', function () {
     muk(config, 'enableCache', false);
     muk(config, 'delay', 0);
+    muk(process.env, 'HOME', '/mockhome');
 
     assert.equal(config.enableCache, false, 'enableCache is false');
     assert.equal(config.delay, 0, 'delay is 0');
+    assert.equal(process.env.HOME, '/mockhome', 'process.env.HOME is /mockhome');
   });
 
   it('Should have original properties after muk.restore()', function () {
     muk(config, 'enableCache', false);
     muk(config, 'enableCache', false);
     muk(config, 'delay', 0);
+    muk(process.env, 'HOME', '/mockhome');
     muk(config, 'notExistProp', 'value');
     muk(process.env, 'notExistProp', 0);
     muk.restore();
 
     assert.equal(config.enableCache, true, 'enableCache is true');
     assert.equal(config.delay, 10, 'delay is 10');
+    assert.equal(process.env.HOME, home, 'process.env.HOME is ' + home);
     assert(!hasOwnProperty(config, 'notExistProp'), 'notExistProp is deleted');
     assert(!hasOwnProperty(process.env, 'notExistProp'), 'notExistProp is deleted');
   });
