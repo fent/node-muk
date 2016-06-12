@@ -229,6 +229,12 @@ describe('Mock check', function() {
     muk(obj, 'e', 2);
     assert.ok(muk.isMocked(obj, 'e'));
   });
+
+  it('should check process.env', function() {
+    muk(process.env, 'HOME', '/mockhome');
+    assert.equal(process.env.HOME, '/mockhome');
+    assert.ok(muk.isMocked(process.env, 'HOME'));
+  });
 });
 
 function hasOwnProperty(obj, prop) {
