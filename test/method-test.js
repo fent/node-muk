@@ -200,8 +200,10 @@ describe('Mock check', function() {
       a: 1,
     };
     muk(obj, 'a', 2);
+    assert.equal(muk.isMocked(obj, 'a'), true);
     muk.restore();
     assert.equal(obj.a, 1);
+    assert.equal(muk.isMocked(obj, 'a'), false);
   });
 
   it('Should check different type', function() {
