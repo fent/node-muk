@@ -1,8 +1,9 @@
 # muk
 
-[![Build Status](https://secure.travis-ci.org/fent/node-muk.png)](http://travis-ci.org/fent/node-muk) [![Dependency Status](https://gemnasium.com/fent/node-muk.svg)](https://gemnasium.com/fent/node-muk)
+[![Build Status](https://secure.travis-ci.org/fent/node-muk.svg)](http://travis-ci.org/fent/node-muk) [![Dependency Status](https://gemnasium.com/fent/node-muk.svg)](https://gemnasium.com/fent/node-muk)
+[![codecov](https://codecov.io/gh/fent/node-muk/branch/master/graph/badge.svg)](https://codecov.io/gh/fent/node-muk)
 
-![muk](https://raw.githubusercontent.com/fent/node-muk/master/muk.gif)
+![muk](muk.gif)
 
 # Usage
 
