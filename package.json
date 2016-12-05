@@ -23,12 +23,7 @@
     "mocha": "*",
     "istanbul": "0"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://github.com/fent/node-muk/raw/master/LICENSE"
-    }
-  ],
+  "license": "MIT",
   "files": [
     "lib"
   ]
