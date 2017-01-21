@@ -1,5 +1,10 @@
 # muk
 
+### * Abandoned *
+Abandoned in favor of splitting up the functionality into
+* [muk-prop](https://github.com/fent/muk-prop.js) - Mock object methods and properties
+* [muk-require](https://github.com/fent/node-muk-require) - Mock dependencies
+
 [![Build Status](https://secure.travis-ci.org/fent/node-muk.svg)](http://travis-ci.org/fent/node-muk)
 [![Dependency Status](https://gemnasium.com/fent/node-muk.svg)](https://gemnasium.com/fent/node-muk)
 [![codecov](https://codecov.io/gh/fent/node-muk/branch/master/graph/badge.svg)](https://codecov.io/gh/fent/node-muk)
