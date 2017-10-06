@@ -20,7 +20,7 @@
     "lib": "./lib"
   },
   "devDependencies": {
-    "mocha": "*",
+    "mocha": ">=4.0.1",
     "istanbul": "0"
   },
   "license": "MIT",
